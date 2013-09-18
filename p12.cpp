@@ -1,4 +1,43 @@
-﻿#include <iostream>
+#if 0
+#include<iostream>
+#include<vector>
+#include<deque>
+using namespace std;
+
+
+vector<int>* foo() {
+
+	int a[] = { 1,2,3,4};
+	vector<int>* v= new vector<int>();
+	vector<int> Vs(a, a + 4);
+
+	v->push_back(a[0]);
+	v->push_back(a[1]);
+	v->push_back(a[2]);
+	return v;
+}
+
+vector<int>* bar() {
+	return foo();
+}
+
+int main() {
+
+	vector<int>* p = bar();
+
+	deque<int>q(5);
+	std::copy( p->begin(), p->end(), q.begin());
+
+	// Error
+	deque<int>qq(5);
+	std::copy( bar()->begin(), bar()->end(), qq.begin());
+
+	return 0;
+}
+#endif
+
+//#if 0
+#include <iostream>
 #include <bitset>
 #define SIZE 10000000
 #define MAX (int)(SIZE-3)/2
@@ -76,10 +115,12 @@ bool Miller(long long p,int iteration){
 int main() {
 	int n=1, a =0, b=0,i=0,aCount=0,bCount=0,nFactor=0, pow =1;
 	bool flag=true;
+	// Generate prime numbers
 	Sieve_GeneratePrimes();
 
 	while(true) {
-		//n = 2160;
+		i = 0;
+		//Divide the big number into two half by Arithmetic Progression formulae
 		// Making 'a' is always less than 'b'
 		if(0==n%2) {
 			a = (n/2);
@@ -90,7 +131,7 @@ int main() {
 			a = (n+1)/2;
 			b = n ;
 		}
-
+		// Check the Number is prime or not
 		if(!Miller(a,5)) {
 			// 'a' is not a prime
 			while(true) {
@@ -104,22 +145,23 @@ int main() {
 						pow = pow * (aCount+1);
 						aCount =0;
 					}
-
 					else {
 						pow = pow * (aCount+1);
 						aCount =0;
-						break;
+						break; // Go out of while loop
 					}
 
 				}
 			}
 		}
 		else {
+			// 'a' is prime
 			++aCount;
 			pow = pow * (aCount+1);
 		}
 
 		i = 0;
+		// Do the same for process like 'a'
 		if(!Miller(b,5)) {
 			// 'b' is not a prime
 			while(true) {
@@ -137,25 +179,28 @@ int main() {
 					{
 						pow = pow * (bCount+1);
 						bCount =0;
-						break;
+						break; // Go out of while loop
 					}
 				}
 			}
 		}
 		else {
+			// 'b' is prime
 			++bCount;
 			pow = pow * (bCount+1);
 		}
-		nFactor = pow; //(aCount+1) * (bCount+1);
-		if(nFactor > 500)
-		{
-			std::cout<<(n/2)*(n+1);
+
+		nFactor = pow;
+
+		if(nFactor > 500) {
+			std::cout<<n<<" :"<<(n*(n+1)/2)<<" :"<<nFactor<<endl;
 			break;
 		}
 		++n;
 		aCount = bCount = nFactor = 0;
 		pow = 1;
 	}
-
 	return 0;
 }
+
+// Ans: :76576500
