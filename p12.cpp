@@ -157,25 +157,5 @@ int main() {
 		pow = 1;
 	}
 
-#if 0
-	// Factor Count
-	if(1 == isPrime(a)) {
-		a_isPrime = true;
-	}
-
-	if(1 == isPrime(b)) {
-		b_isPrime = true;
-	}
-
-	for(int i=2;i<=(b/2);++i) {
-		if((b%i == 0) && (a_isPrime == false)){
-			count++;
-		}
-		else if((a%i == 0) && (a > i) && (b_isPrime == false)) {
-			count++;
-		}
-	}
-#endif
-
 	return 0;
 }
